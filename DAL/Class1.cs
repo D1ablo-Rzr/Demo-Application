@@ -5,9 +5,9 @@ using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Linq;
 using System.Web;
-using Demo_Application.Models;
+using Models;
 
-namespace Demo_Application.DAL
+namespace DAL
 {
     public class DALLayer
     {
@@ -144,13 +144,13 @@ namespace Demo_Application.DAL
                 rd.Close();
             }
             con.Close();
-            
+
             return ls;
         }
 
         public bool Order_details(int OrderID, int ProdID, decimal Unit_Price, int Quantity)
         {
-            SqlCommand ord_det = new SqlCommand("insert into [Order Details](OrderID, ProductID, UnitPrice, Quantity) values(@orderid, @prod_id, @unitprice, @quantity)",con);
+            SqlCommand ord_det = new SqlCommand("insert into [Order Details](OrderID, ProductID, UnitPrice, Quantity) values(@orderid, @prod_id, @unitprice, @quantity)", con);
             ord_det.Parameters.AddWithValue("@orderid", OrderID);
             ord_det.Parameters.AddWithValue("@prod_id", ProdID);
             ord_det.Parameters.AddWithValue("@unitprice", Unit_Price);
@@ -174,7 +174,7 @@ namespace Demo_Application.DAL
             con.Open();
             SqlCommand cmd = new SqlCommand("select CustomerID, CompanyName, ContactName, ContactTitle, Address from Customers", con);
             SqlDataReader rd = cmd.ExecuteReader();
-            while(rd.Read())
+            while (rd.Read())
             {
                 Customer Temp = new Customer();
                 Temp.set_ID(rd.GetString(rd.GetOrdinal("CustomerID")));
@@ -192,20 +192,20 @@ namespace Demo_Application.DAL
         public bool Place_order(string Cx_ID, int EmpID, string Prod_Name, int Quantity)
         {
             con.Open();
-            int Prod_ID=0, Unit_Price=0;
+            int Prod_ID = 0, Unit_Price = 0;
 
 
-            SqlCommand cmd = new SqlCommand("SELECT TOP 1 OrderID FROM Orders ORDER BY OrderID DESC",con);
+            SqlCommand cmd = new SqlCommand("SELECT TOP 1 OrderID FROM Orders ORDER BY OrderID DESC", con);
             int orderid = (int)cmd.ExecuteScalar();
 
 
-            SqlCommand prodID = new SqlCommand("Select ProductID, UnitPrice from Products where ProductName=@prodname",con);
+            SqlCommand prodID = new SqlCommand("Select ProductID, UnitPrice from Products where ProductName=@prodname", con);
             prodID.Parameters.AddWithValue("prodname", Prod_Name);
             SqlDataReader r = prodID.ExecuteReader();
 
-            while(r.Read())
+            while (r.Read())
             {
-                Prod_ID = (int) r[0];
+                Prod_ID = (int)r[0];
                 Unit_Price = (int)r[1];
             }
 

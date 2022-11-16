@@ -6,8 +6,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 using System.Data.SqlClient;
-using Demo_Application.DAL;
-using Demo_Application.Models;
+using DAL;
+using Models;
 
 namespace Demo_Application
 {
