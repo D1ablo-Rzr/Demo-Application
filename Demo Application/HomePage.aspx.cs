@@ -11,37 +11,42 @@ using Models;
 
 namespace Demo_Application
 {
-    public partial class _Default : Page
+    public partial class HomePage : Page
     {
-        DALLayer obj = new DALLayer();
+        DAL_Customer Cust_Obj = new DAL_Customer();
+        DAL_Orders Order_Obj = new DAL_Orders();
         List<Customer> cust = new List<Customer>();
         List<OrderDetails> orders = new List<OrderDetails>();
         protected void Page_Load(object sender, EventArgs e)
         {
+            cust = Cust_Obj.get_customer();
             if (!this.IsPostBack)
             {
-                HiddenField.Value = "-1";
+                HiddenField.Value = "0";
+                showdata(0);
             }
-
-            cust = obj.get_customer();
         }
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            if(obj.AddCustomer(TEXT_ID.Text, TEXT_NAME.Text, TEXT_NAME_2.Text, TEXT_TITLE.Text, TEXT_ADDRESS.Text))
-            {
-                Response.Write("<script>alert('Data Inserted !!')</script>");
-            }
-            else
-            {
-                Response.Write("<script>alert('Error Occured !!')</script>");
-            }
-            
+            TEXT_ID.Text = string.Empty;
+            TEXT_ID.DataBind();
+            TEXT_NAME.Text = string.Empty;
+            TEXT_NAME.DataBind();
+            TEXT_NAME_2.Text = string.Empty;
+            TEXT_NAME_2.DataBind();
+            TEXT_TITLE.Text = string.Empty;
+            TEXT_TITLE.DataBind();
+            TEXT_ADDRESS.Text = string.Empty;
+            TEXT_ADDRESS.DataBind();
+            Button10.Visible = true;
+            GridView1.Visible=false;
         }
 
         protected void Button2_Click(object sender, EventArgs e)
         {
-            if(obj.EditCustomer(TEXT_ID.Text, TEXT_NAME.Text, TEXT_NAME_2.Text, TEXT_TITLE.Text, TEXT_ADDRESS.Text))
+            Button10.Visible = false;
+            if (Cust_Obj.EditCustomer(TEXT_ID.Text, TEXT_NAME.Text, TEXT_NAME_2.Text, TEXT_TITLE.Text, TEXT_ADDRESS.Text))
             {
                 Response.Write("<script>alert('Data Updated !!')</script>");
             }
@@ -53,7 +58,8 @@ namespace Demo_Application
 
         protected void Button3_Click(object sender, EventArgs e)
         {
-            if(obj.DeleteCust(TEXT_ID.Text))
+            Button10.Visible = false;
+            if (Cust_Obj.DeleteCust(TEXT_ID.Text))
             {
                 Response.Write("<script>alert('Data Deleted !!')</script>");
             }
@@ -65,78 +71,99 @@ namespace Demo_Application
 
         protected void Button5_Click(object sender, EventArgs e)
         {
-            string CXID = TEXT_ID.Text.Trim();
+            var CXID = TEXT_ID.Text.Trim();
             Response.Redirect("About.aspx?CX_ID="+CXID);
         }
 
 
         protected void showdata(int i)
         {
-            TEXT_ID.Text = cust[i].get_ID();
-            TEXT_NAME.Text = cust[i].get_CompName();
-            TEXT_NAME_2.Text = cust[i].get_CustName();
-            TEXT_TITLE.Text = cust[i].get_title();
-            TEXT_ADDRESS.Text = cust[i].get_Address();
+            TEXT_ID.Text = cust[i].GetId();
+            TEXT_NAME.Text = cust[i].GetCompName();
+            TEXT_NAME_2.Text = cust[i].GetCustName();
+            TEXT_TITLE.Text = cust[i].GetTitle();
+            TEXT_ADDRESS.Text = cust[i].GetAddress();
+
+            orders = Order_Obj.DisplayOrder(cust[i].GetId());
+            if (orders.Count != 0)
+            {
+                TextBox1.Text = "Displaying Orders";
+                showorders();
+            }
+            else
+            {
+                GridView1.Visible = false;
+                TextBox1.Text="No Orders Exist";
+            }
         }
 
         protected void showorders()
         {
+            GridView1.Visible = true;
             GridView1.DataSource = orders;
             GridView1.DataBind();
         }
 
         protected void Button6_Click(object sender, EventArgs e)
         {
+            Button10.Visible = false;
             HiddenField.Value = "0";
             int i = Convert.ToInt32(HiddenField.Value);
-            orders = obj.DisplayOrder(cust[i].get_ID());
             showdata(i);
-            showorders();
         }
 
         protected void Button7_Click(object sender, EventArgs e)
         {
+            Button10.Visible = false;
             int i = cust.Count() - 1;
             HiddenField.Value = Convert.ToString(i);
-            orders = obj.DisplayOrder(cust[i].get_ID());
             showdata(i);
-            showorders();
         }
 
         protected void Button8_Click(object sender, EventArgs e)
         {
+            Button10.Visible = false;
             int i = Convert.ToInt32(HiddenField.Value.TrimStart());
             i++;
             if (i < cust.Count)
             {
-                orders = obj.DisplayOrder(cust[i].get_ID());
                 showdata(i);
-                showorders();
             }
             else
             {
-                Response.Write("<script>alert('Error Occured !!')</script>");
-                i--;
+                i = 0;
+                showdata(i);
             }
             HiddenField.Value = Convert.ToString(i);
         }
 
         protected void Button9_Click(object sender, EventArgs e)
         {
+            Button10.Visible = false;
             int i = Convert.ToInt32(HiddenField.Value.TrimStart());
             i--;
             if (i > -1)
             {
-                orders = obj.DisplayOrder(cust[i].get_ID());
                 showdata(i);
-                showorders();
+            }
+            else
+            {
+                i=cust.Count-1;
+                showdata(i);
+            }
+            HiddenField.Value = Convert.ToString(i);
+        }
+
+        protected void Button10_Click(object sender, EventArgs e)
+        {
+            if (Cust_Obj.AddCustomer(TEXT_ID.Text, TEXT_NAME.Text, TEXT_NAME_2.Text, TEXT_TITLE.Text, TEXT_ADDRESS.Text))
+            {
+                Response.Write("<script>alert('Data Inserted !!')</script>");
             }
             else
             {
                 Response.Write("<script>alert('Error Occured !!')</script>");
-                i++;
             }
-            HiddenField.Value = Convert.ToString(i);
         }
     }
 }
