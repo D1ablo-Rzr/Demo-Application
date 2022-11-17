@@ -5,13 +5,13 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Demo_Application.DAL;
+using DAL;
 
 namespace Demo_Application
 {
-    public partial class About : Page
+    public partial class OrderPlacement : Page
     {
-        DALLayer obj = new DALLayer();
+        DAL_Orders obj = new DAL_Orders();
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!this.IsPostBack)

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Demo_Application._Default" %>
+﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="HomePage.aspx.cs" Inherits="Demo_Application.HomePage" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -25,6 +25,7 @@
         </td>
         <td style="height: 20px">
             <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Add" Width="73px" />
+            <asp:Button ID="Button10" runat="server" OnClick="Button10_Click" Text="Submit" Visible="False" Width="73px" />
         </td>
     </tr>
     <tr>
@@ -60,6 +61,16 @@
             <asp:TextBox ID="TEXT_ADDRESS" runat="server" Width="228px"></asp:TextBox>
         </td>
         <td style="height: 12px">&nbsp;</td>
+    </tr>
+    <tr>
+        <td style="width: 276px; height: 29px">
+            <asp:Label ID="Label2" runat="server" Text="Order Details"></asp:Label>
+        </td>
+        <td style="height: 29px"></td>
+        <td style="width: 151px; height: 29px">
+            <asp:TextBox ID="TextBox1" runat="server" Width="222px" ReadOnly="true"></asp:TextBox>
+        </td>
+        <td style="height: 29px"></td>
     </tr>
      <tr>
         <td style="width: 276px; height: 12px">
