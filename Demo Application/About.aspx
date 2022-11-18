@@ -6,9 +6,8 @@
         <tr>
             <td style="width: 255px; height: 32px">Select Product</td>
             <td style="height: 32px; width: 410px;">
-    <asp:DropDownList ID="DropDownList1" runat="server" DataSourceID="SqlDataSource1" DataTextField="ProductName" DataValueField="ProductID" Height="20px" Width="100px">
+    <asp:DropDownList ID="DropDownList1" runat="server" DataTextField="ProductName" DataValueField="ProductID" Height="20px" Width="100px">
     </asp:DropDownList>
-    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:NorthwindConnectionString %>" SelectCommand="SELECT [ProductName], [ProductID] FROM [Products]"></asp:SqlDataSource>
             </td>
             <td style="height: 32px"></td>
             <td style="height: 32px"></td>
@@ -30,9 +29,8 @@
         <tr>
             <td style="width: 255px; height: 20px">Enter Employee ID</td>
             <td style="height: 20px; width: 410px;">
-                <asp:DropDownList ID="DropDownList2" runat="server" DataSourceID="SqlDataSource3" DataTextField="EmployeeID" DataValueField="EmployeeID" Width="100px">
+                <asp:DropDownList ID="DropDownList2" runat="server" DataTextField="EmployeeID" DataValueField="EmployeeID" Width="100px">
                 </asp:DropDownList>
-                <asp:SqlDataSource ID="SqlDataSource3" runat="server" ConnectionString="<%$ ConnectionStrings:NorthwindConnectionString %>" SelectCommand="SELECT [EmployeeID] FROM [Employees]"></asp:SqlDataSource>
             </td>
             <td style="height: 20px"></td>
             <td style="height: 20px"></td>
